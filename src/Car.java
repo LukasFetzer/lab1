@@ -1,3 +1,5 @@
+package src;
+
 import java.awt.*;
 
 public abstract class Car implements Movable {
@@ -28,12 +30,22 @@ public abstract class Car implements Movable {
     }
 
     public double getCurrentSpeed(){
-        if (currentSpeed > enginePower){
-            currentSpeed = enginePower;
-        } else if (currentSpeed < 0){
-            currentSpeed = 0;
-        }
         return currentSpeed;
+    }
+
+    public double getX(){
+        return x;
+    }
+
+    public double getY(){
+        return y;
+    }
+
+    public Direction getDirection(){
+        return direction;
+    }
+    public void setDirection(Direction direction){
+        this.direction = direction;
     }
 
     public Color getColor(){
@@ -51,6 +63,8 @@ public abstract class Car implements Movable {
     public void stopEngine(){
         currentSpeed = 0;
     }
+
+    public String getModelName() {return modelName;}
 
     public void gas(int gas){
         if (gas < 0){
@@ -74,15 +88,20 @@ public abstract class Car implements Movable {
     protected abstract double speedFactor();
 
     public void incrementSpeed(double amount){
-        currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount,getEnginePower());
+        if (currentSpeed < enginePower) {
+            currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount, getEnginePower());
+        } else {currentSpeed = enginePower;}
     }
 
     public void decrementSpeed(double amount){
-        currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount,0);
+        if (currentSpeed > 0) {
+            currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount,0);
+        } else {currentSpeed = 0;}
+
     }
 
     @Override
-    public void move(double x, double y){
+    public void move(){
         switch (direction){
             case EAST -> x += currentSpeed;
             case WEST -> x -= currentSpeed;

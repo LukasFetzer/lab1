@@ -1,5 +1,4 @@
-import java.awt.*;
-
+package src;
 
 
 public class Main {
