@@ -10,8 +10,9 @@ public abstract class Car implements Movable {
     private String modelName; // The car model name
     private Direction direction;
     private double x, y;
+    private int weight;
 
-    public Car(int nrDoors, double enginePower, Color color, String modelName) {
+    public Car(int nrDoors, double enginePower, Color color, String modelName, int weight) {
         this.nrDoors = nrDoors;
         this.enginePower = enginePower;
         this.currentSpeed = 0;
@@ -20,7 +21,7 @@ public abstract class Car implements Movable {
         this.direction = Direction.NORTH;
         this.x = 0;
         this.y = 0;
-
+        this.weight = weight;
     }
     public int getNrDoors(){
         return nrDoors;
@@ -28,6 +29,7 @@ public abstract class Car implements Movable {
     public double getEnginePower(){
         return enginePower;
     }
+    public int getWeight(){return weight;}
 
     public double getCurrentSpeed(){
         return currentSpeed;
@@ -36,9 +38,20 @@ public abstract class Car implements Movable {
     public double getX(){
         return x;
     }
+    public void setX(double x){
+        this.x = x;
+    }
 
     public double getY(){
         return y;
+    }
+    public void setY(double y){
+        this.y = y;
+    }
+
+    public void setPosition(double x, double y){
+        this.x = x;
+        this.y = y;
     }
 
     public Direction getDirection(){
