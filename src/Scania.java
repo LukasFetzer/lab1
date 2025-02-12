@@ -4,18 +4,27 @@ import java.awt.*;
 
 public class Scania extends Truck {
 
-    private int flakAngle = 0;
+    private int flakAngle = 70;
 
-
-    public void lowerFlak() {
+    @Override
+    public void lowerRamp() {
         if (getCurrentSpeed() == 0 && flakAngle > 0) {
             flakAngle -= 1;
         }
+        if (flakAngle <= 0) {
+            flakAngle = 0;
+            super.lowerRamp();
+        }
     }
 
-    public void raiseFlak() {
+    @Override
+    public void raiseRamp() {
         if (getCurrentSpeed() == 0 && flakAngle < 70) {
             flakAngle += 1;
+        }
+        if (flakAngle >= 70) {
+            flakAngle = 70;
+            super.raiseRamp();
         }
     }
 
@@ -27,4 +36,5 @@ public class Scania extends Truck {
     public int getFlakAngle() {
         return flakAngle;
     }
+
 }

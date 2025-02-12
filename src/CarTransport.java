@@ -6,9 +6,9 @@ import java.awt.*;
 import java.util.ArrayDeque;
 
 public class CarTransport extends Truck{
-    private final Deque<Car> loadedCars; // Stack-like structure to store loaded cars
-    private final int maxCapacity; // Maximum number of cars the transport can carry
-    private final double loadingDistance = 5.0; // Maximum distance for loading/unloading cars
+    private final Deque<Car> loadedCars;
+    private final int maxCapacity;
+    private final double loadingDistance = 5.0;
 
 
 
@@ -19,7 +19,7 @@ public class CarTransport extends Truck{
     }
 
     public void loadCar(Car car) {
-        if (isRampDown() && isCloseToTransport(car) && !isCarTooLarge(car) && !(car instanceof CarTransport)) {
+        if (isRampDown() && isCloseToTransport(car) && !isCarTooLarge(car)) {
             if (loadedCars.size() < maxCapacity) {
                 loadedCars.push(car);
                 car.setPosition(this.getX(), this.getY());

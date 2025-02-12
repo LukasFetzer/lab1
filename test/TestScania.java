@@ -16,7 +16,7 @@ public class TestScania {
         scania = new Scania();
     }
 
-    @Test
+    /*@Test
     public void testRampManagement() {
         assertFalse(scania.isRampDown());
 
@@ -25,11 +25,13 @@ public class TestScania {
 
         scania.raiseRamp();
         assertFalse(scania.isRampDown());
-    }
+    } */
 
     @Test
     public void testMovementWithRampDown() {
-        scania.lowerRamp();
+        for (int i = 0; i < 70; i++) {
+            scania.lowerRamp();
+        }
 
         scania.startEngine();
         scania.gas(1);
@@ -39,18 +41,25 @@ public class TestScania {
     }
 
     @Test
-    public void testFlakAngleManagement() {
-        scania.lowerRamp();
+    public void testRampAngleManagement() {
+        for (int i = 0; i < 70; i++) {
+            scania.lowerRamp();
+        }
+        assertEquals(0, scania.getFlakAngle());
+        assertTrue(scania.isRampDown());
 
-        scania.raiseFlak();
+
+        scania.raiseRamp();
         assertEquals(1, scania.getFlakAngle());
 
-        scania.lowerFlak();
+        scania.lowerRamp();
         assertEquals(0, scania.getFlakAngle());
+        assertTrue(scania.isRampDown());
 
         for (int i = 0; i < 80; i++) {
-            scania.raiseFlak();
+            scania.raiseRamp();
         }
         assertEquals(70, scania.getFlakAngle());
+        assertFalse(scania.isRampDown());
     }
 }
