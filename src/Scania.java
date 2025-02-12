@@ -36,5 +36,4 @@ public class Scania extends Truck {
     public int getFlakAngle() {
         return flakAngle;
     }
-
 }
