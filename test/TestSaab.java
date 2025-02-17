@@ -64,31 +64,6 @@ public class TestSaab {
 
     @ParameterizedTest
     @ValueSource(ints ={-300, 0, 1, 300})
-    public void testIncrementSpeedTurboOff(int amount) {
-        saab.startEngine();
-
-        saab.incrementSpeed(amount);
-
-        assertEquals(
-                Math.min(initialSpeed + getExpectedSpeedFactor(false) * amount, expectedEnginePower),
-                saab.getCurrentSpeed());
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints ={-300, 0, 1, 300})
-    public void testIncrementSpeedTurboOn(int amount) {
-        saab.startEngine();
-        saab.setTurboOn();
-
-        saab.incrementSpeed(amount);
-
-        assertEquals(
-                Math.min(initialSpeed + getExpectedSpeedFactor(true) * amount, expectedEnginePower),
-                saab.getCurrentSpeed());
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints ={-300, 0, 1, 300})
     public void testGasTurboOff(int amount) {
         saab.startEngine();
 
@@ -137,56 +112,90 @@ public class TestSaab {
                 saab.getCurrentSpeed());
     }
 
-    @ParameterizedTest
-    @EnumSource(Direction.class)
-    public void testMove(Direction direction) {
+    @Test
+    public void testMove() {
         saab.startEngine();
-        saab.setDirection(direction);
-        switch (direction){
-            case EAST -> expectedX += initialSpeed;
-            case WEST -> expectedX -= initialSpeed;
-            case NORTH -> expectedY += initialSpeed;
-            case SOUTH -> expectedY -= initialSpeed;
-        }
+        saab.turnLeft();
+
+        assertEquals(Direction.WEST, saab.getDirection());
 
         saab.move();
 
+        expectedX -= initialSpeed;
+        assertEquals(expectedX, saab.getX());
+        assertEquals(expectedY, saab.getY());
+
+        saab.turnLeft();
+
+        assertEquals(Direction.SOUTH, saab.getDirection());
+
+        saab.move();
+
+        expectedY -= initialSpeed;
+        assertEquals(expectedX, saab.getX());
+        assertEquals(expectedY, saab.getY());
+
+        saab.turnLeft();
+
+        assertEquals(Direction.EAST, saab.getDirection());
+
+        saab.move();
+
+        expectedX += initialSpeed;
+        assertEquals(expectedX, saab.getX());
+        assertEquals(expectedY, saab.getY());
+
+        saab.turnLeft();
+
+        assertEquals(Direction.NORTH, saab.getDirection());
+
+        saab.move();
+
+        expectedY += initialSpeed;
         assertEquals(expectedX, saab.getX());
         assertEquals(expectedY, saab.getY());
     }
 
-    @ParameterizedTest
-    @EnumSource(Direction.class)
-    public void testTurnLeft(Direction direction) {
+    @Test
+    public void testTurnLeft() {
         saab.startEngine();
-        saab.setDirection(direction);
-        switch (direction){
-            case NORTH -> direction = Direction.WEST;
-            case SOUTH -> direction = Direction.EAST;
-            case EAST -> direction = Direction.NORTH;
-            case WEST -> direction = Direction.SOUTH;
-        }
 
         saab.turnLeft();
 
-        assertEquals(direction, saab.getDirection());
+        assertEquals(Direction.WEST, saab.getDirection());
+
+        saab.turnLeft();
+
+        assertEquals(Direction.SOUTH, saab.getDirection());
+
+        saab.turnLeft();
+
+        assertEquals(Direction.EAST, saab.getDirection());
+
+        saab.turnLeft();
+
+        assertEquals(Direction.NORTH, saab.getDirection());
     }
 
-    @ParameterizedTest
-    @EnumSource(Direction.class)
-    public void testTurnRight(Direction direction) {
+    @Test
+    public void testTurnRight() {
         saab.startEngine();
-        saab.setDirection(direction);
-        switch (direction){
-            case NORTH -> direction = Direction.EAST;
-            case EAST -> direction = Direction.SOUTH;
-            case SOUTH -> direction = Direction.WEST;
-            case WEST -> direction = Direction.NORTH;
-        }
 
         saab.turnRight();
 
-        assertEquals(direction, saab.getDirection());
+        assertEquals(Direction.EAST, saab.getDirection());
+
+        saab.turnRight();
+
+        assertEquals(Direction.SOUTH, saab.getDirection());
+
+        saab.turnRight();
+
+        assertEquals(Direction.WEST, saab.getDirection());
+
+        saab.turnRight();
+
+        assertEquals(Direction.NORTH, saab.getDirection());
     }
 
 

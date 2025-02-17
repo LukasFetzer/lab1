@@ -59,18 +59,6 @@ public class TestVolvo {
 
     @ParameterizedTest
     @ValueSource(ints ={-300, 0, 1, 300})
-    public void testIncrementSpeed(int amount) {
-        volvo.startEngine();
-
-        volvo.incrementSpeed(amount);
-
-        assertEquals(
-                Math.min(initialSpeed + getExpectedSpeedFactor() * amount, expectedEnginePower),
-                volvo.getCurrentSpeed());
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints ={-300, 0, 1, 300})
     public void testGas(int amount) {
         volvo.startEngine();
 
@@ -93,57 +81,92 @@ public class TestVolvo {
                 volvo.getCurrentSpeed());
     }
 
-    @ParameterizedTest
-    @EnumSource(Direction.class)
-    public void testMove(Direction direction) {
+    @Test
+    public void testMove() {
         volvo.startEngine();
-        volvo.setDirection(direction);
-        switch (direction){
-            case EAST -> expectedX += initialSpeed;
-            case WEST -> expectedX -= initialSpeed;
-            case NORTH -> expectedY += initialSpeed;
-            case SOUTH -> expectedY -= initialSpeed;
-        }
+        volvo.turnLeft();
+
+        assertEquals(Direction.WEST, volvo.getDirection());
 
         volvo.move();
 
+        expectedX -= initialSpeed;
+        assertEquals(expectedX, volvo.getX());
+        assertEquals(expectedY, volvo.getY());
+
+        volvo.turnLeft();
+
+        assertEquals(Direction.SOUTH, volvo.getDirection());
+
+        volvo.move();
+
+        expectedY -= initialSpeed;
+        assertEquals(expectedX, volvo.getX());
+        assertEquals(expectedY, volvo.getY());
+
+        volvo.turnLeft();
+
+        assertEquals(Direction.EAST, volvo.getDirection());
+
+        volvo.move();
+
+        expectedX += initialSpeed;
+        assertEquals(expectedX, volvo.getX());
+        assertEquals(expectedY, volvo.getY());
+
+        volvo.turnLeft();
+
+        assertEquals(Direction.NORTH, volvo.getDirection());
+
+        volvo.move();
+
+        expectedY += initialSpeed;
         assertEquals(expectedX, volvo.getX());
         assertEquals(expectedY, volvo.getY());
     }
 
-    @ParameterizedTest
-    @EnumSource(Direction.class)
-    public void testTurnLeft(Direction direction) {
+    @Test
+    public void testTurnLeft() {
         volvo.startEngine();
-        volvo.setDirection(direction);
-        switch (direction){
-            case NORTH -> direction = Direction.WEST;
-            case SOUTH -> direction = Direction.EAST;
-            case EAST -> direction = Direction.NORTH;
-            case WEST -> direction = Direction.SOUTH;
-        }
 
         volvo.turnLeft();
 
-        assertEquals(direction, volvo.getDirection());
+        assertEquals(Direction.WEST, volvo.getDirection());
+
+        volvo.turnLeft();
+
+        assertEquals(Direction.SOUTH, volvo.getDirection());
+
+        volvo.turnLeft();
+
+        assertEquals(Direction.EAST, volvo.getDirection());
+
+        volvo.turnLeft();
+
+        assertEquals(Direction.NORTH, volvo.getDirection());
     }
 
-    @ParameterizedTest
-    @EnumSource(Direction.class)
-    public void testTurnRight(Direction direction) {
+    @Test
+    public void testTurnRight() {
         volvo.startEngine();
-        volvo.setDirection(direction);
-        switch (direction){
-            case NORTH -> direction = Direction.EAST;
-            case EAST -> direction = Direction.SOUTH;
-            case SOUTH -> direction = Direction.WEST;
-            case WEST -> direction = Direction.NORTH;
-        }
 
         volvo.turnRight();
 
-        assertEquals(direction, volvo.getDirection());
+        assertEquals(Direction.EAST, volvo.getDirection());
+
+        volvo.turnRight();
+
+        assertEquals(Direction.SOUTH, volvo.getDirection());
+
+        volvo.turnRight();
+
+        assertEquals(Direction.WEST, volvo.getDirection());
+
+        volvo.turnRight();
+
+        assertEquals(Direction.NORTH, volvo.getDirection());
     }
+
 
 
 
