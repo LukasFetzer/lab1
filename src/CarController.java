@@ -71,4 +71,11 @@ public class CarController {
             car.gas(amount);
         }
     }
+    void brake(int amount) {
+        for (Car car : cars
+        ) {
+            car.breaks(amount);
+        }
+    }
+
 }

@@ -111,6 +111,16 @@ public abstract class Car implements Movable {
 
     @Override
     public void move(){
+        if (x < 0 || x > 500 || y < 0 || y > 500) {
+            switch (direction){
+                case NORTH -> direction = Direction.SOUTH;
+                case SOUTH -> direction = Direction.NORTH;
+                case EAST -> direction = Direction.WEST;
+                case WEST -> direction = Direction.EAST;
+            }
+            x = Math.min(Math.max(x, 0), 500);
+            y = Math.min(Math.max(y, 0), 500);
+        }
         switch (direction){
             case EAST -> x += currentSpeed;
             case WEST -> x -= currentSpeed;
