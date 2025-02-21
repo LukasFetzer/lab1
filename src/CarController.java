@@ -1,9 +1,12 @@
 package src;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.awt.image.BufferedImage;
 import src.Car;
 import src.Volvo240;
 import src.Bilverkstad;
@@ -33,16 +36,47 @@ public class CarController {
     // A list of cars, modify if needed
     ArrayList<Car> cars = new ArrayList<>();
 
+    private Bilverkstad<Volvo240> bilverkstad;
+
     //methods:
 
     public static void main(String[] args) {
         // Instance of this class
         CarController cc = new CarController();
 
-        cc.cars.add(new Volvo240());
+        cc.bilverkstad = new Bilverkstad<Volvo240>(5);
+
+        Volvo240 volvo = new Volvo240();
+        Saab95 saab = new Saab95();
+        Scania scania = new Scania();
+
+        cc.cars.add(volvo);
+        cc.cars.add(saab);
+        cc.cars.add(scania);
+
+        volvo.setX(0);
+        volvo.setY(0);
+        saab.setX(100);
+        saab.setY(0);
+        scania.setX(200);
+        scania.setY(0);
+
+        cc.frame = new CarView("CarSim 1.0", cc);
+
+        try{
+            BufferedImage volvoImage = ImageIO.read(DrawPanel.class.getResourceAsStream("pics/Volvo240.jpg"));
+            BufferedImage saabImage = ImageIO.read(DrawPanel.class.getResourceAsStream("pics/Saab95.jpg"));
+            BufferedImage scaniaImage = ImageIO.read(DrawPanel.class.getResourceAsStream("pics/Scania.jpg"));
+
+            cc.frame.drawPanel.addCar(volvo, volvoImage);
+            cc.frame.drawPanel.addCar(saab, saabImage);
+            cc.frame.drawPanel.addCar(scania, scaniaImage);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
         // Start a new view and send a reference of self
-        cc.frame = new CarView("CarSim 1.0", cc);
+
 
         // Start the timer
         cc.timer.start();
@@ -57,11 +91,28 @@ public class CarController {
                 car.move();
                 int x = (int) Math.round(car.getX());
                 int y = (int) Math.round(car.getY());
-                frame.drawPanel.moveit(x, y);
-                // repaint() calls the paintComponent method of the panel
-                frame.drawPanel.repaint();
+                frame.drawPanel.moveit(car, x, y);
+
+                if (car instanceof Volvo240 && collidesWith((Volvo240) car)){
+                    bilverkstad.addCar((Volvo240) car);
+                    cars.remove(car);
+                    frame.drawPanel.removeCar(car);
+                    break;
+                }
             }
+            // repaint() calls the paintComponent method of the panel
+            frame.drawPanel.repaint();
         }
+    }
+
+    private boolean collidesWith(Volvo240 volvo){
+        Point workshopPosition = frame.drawPanel.getVolvoWorkshopPoint();
+        double workshopX = workshopPosition.x;
+        double workshopY = workshopPosition.y;
+        double x = volvo.getX();
+        double y = volvo.getY();
+        double radius = 51;
+        return Math.sqrt(Math.pow(x-workshopX, 2) + Math.pow(y-workshopY, 2)) <= radius;
     }
 
     // Calls the gas method for each car once
@@ -75,6 +126,44 @@ public class CarController {
         for (Car car : cars
         ) {
             car.breaks(amount);
+        }
+    }
+
+    void startAllCars() {
+        for (Car car : cars
+        ) {
+            car.startEngine();
+        }
+    }
+
+    void stopAllCars() {
+        for (Car car : cars
+        ) {
+            car.stopEngine();
+        }
+    }
+
+    void turboOnSaab(){
+        Saab95 saab = (Saab95) cars.get(1);
+        saab.setTurboOn();
+    }
+
+    void turboOffSaab(){
+        Saab95 saab = (Saab95) cars.get(1);
+        saab.setTurboOff();
+    }
+
+    void liftBed(){
+        Scania scania = (Scania) cars.get(2);
+        for (int i = 0; i < 70; i++) {
+            scania.raiseRamp();
+        }
+    }
+
+    void lowerBed(){
+        Scania scania = (Scania) cars.get(2);
+        for (int i = 0; i < 70; i++) {
+            scania.lowerRamp();
         }
     }
 

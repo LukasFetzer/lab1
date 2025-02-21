@@ -118,6 +118,8 @@ public abstract class Car implements Movable {
                 case EAST -> direction = Direction.WEST;
                 case WEST -> direction = Direction.EAST;
             }
+            stopEngine();
+            startEngine();
             x = Math.min(Math.max(x, 0), 500);
             y = Math.min(Math.max(y, 0), 500);
         }
