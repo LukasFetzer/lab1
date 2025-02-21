@@ -1,0 +1,17 @@
+2)
+Vilka beroenden är nödvändiga?
+-Car + subclasser definerar hur bilarna ska bete sig
+-Car + CarTransport så att man kann lägga in & ta ut bilar
+-Car + Movable så att alla bilar kann röra sig
+-CarController + Car så att man kann controllera bilarna
+-CarView + DrawPanel så att simuleringen funkar
+-DrawPanel + Car så att man kann rita bilarna 
+
+Vilka klasser är beroende av varandra som inte borde vara det?
+-CarController + volvo, saab, etc det ska funka för alla bilar
+-DrawPanel + volvo, etc. ..
+-CarController + Bilverkstad
+
+Finns det starkare beroenden än nödvändigt?
+CarView + DrawPanel
+
