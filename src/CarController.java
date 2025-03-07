@@ -7,6 +7,10 @@ public class CarController {
         this.simulationController = simulationController;
     }
 
+    public SimulationController getSimulationController() {
+        return simulationController;
+    }
+
     public void gas(int amount) {
         for (Car car : simulationController.getCars()) {
             car.gas(amount);

@@ -10,8 +10,8 @@ public class DrawPanel extends JPanel implements Observer{
     private final List<WorkshopRenderer> workshopRenderers = new ArrayList<>();
 
     public DrawPanel(int x, int y) {
-        this.setPreferredSize(new Dimension(x, y)); // Set preferred size
-        this.setBackground(Color.green); // Set background color
+        this.setPreferredSize(new Dimension(x, y));
+        this.setBackground(Color.green);
     }
 
     public void addCarRenderer(CarRenderer renderer) {
@@ -30,6 +30,7 @@ public class DrawPanel extends JPanel implements Observer{
     public void update(){
         repaint();
     }
+
 
     @Override
     protected void paintComponent(Graphics g) {

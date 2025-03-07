@@ -1,0 +1,5 @@
+5)
+Implementera funktionalitet för att lägga till och ta bort bilar via GUI:t. Kan ni implementera detta utan att behöva förändra existerande klassfiler?
+
+we dont have to change main() as we can use a command pattern to add or remove cars.
+We however have to edit MainView to add the buttons.

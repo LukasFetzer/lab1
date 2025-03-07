@@ -8,7 +8,7 @@ public class MainView extends JFrame {
     private final DrawPanel drawPanel;
     private final EventView eventView;
 
-    public MainView(String title, CarController carController, DrawPanel drawPanel, EventView eventView) {
+    public MainView(String title, CarController carController,DrawPanel drawPanel, EventView eventView) {
         this.carController = carController;
         this.drawPanel = drawPanel;
         this.eventView = eventView;
@@ -18,17 +18,20 @@ public class MainView extends JFrame {
     private void initComponents(String title) {
         this.setTitle(title);
         this.setPreferredSize(new Dimension(800, 800));
-        this.setLayout(new BorderLayout()); // Use BorderLayout for the frame
+        this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Add DrawPanel to the center
         this.add(drawPanel, BorderLayout.CENTER);
 
-        // Create a panel for buttons at the bottom
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER)); // Use FlowLayout for buttons
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        // Gas Panel
+        JButton addCarButton = new JButton("Add Car");
+        buttonPanel.add(addCarButton);
+
+        JButton removeCarButton = new JButton("Remove Car");
+        buttonPanel.add(removeCarButton);
+
         JPanel gasPanel = new JPanel();
         JLabel gasLabel = new JLabel("Amount of gas");
         JSpinner gasSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
@@ -37,7 +40,6 @@ public class MainView extends JFrame {
         gasPanel.add(gasSpinner, BorderLayout.PAGE_END);
         buttonPanel.add(gasPanel);
 
-        // Buttons
         JButton gasButton = new JButton("Gas");
         JButton brakeButton = new JButton("Brake");
         JButton turboOnButton = new JButton("Saab Turbo on");
@@ -47,7 +49,6 @@ public class MainView extends JFrame {
         JButton startButton = new JButton("Start all cars");
         JButton stopButton = new JButton("Stop all cars");
 
-        // Add buttons to the button panel
         buttonPanel.add(gasButton);
         buttonPanel.add(brakeButton);
         buttonPanel.add(turboOnButton);
@@ -57,10 +58,14 @@ public class MainView extends JFrame {
         buttonPanel.add(startButton);
         buttonPanel.add(stopButton);
 
-        // Add the button panel to the bottom of the frame
         this.add(buttonPanel, BorderLayout.SOUTH);
 
-        // Let EventView handle button actions
+        AddCarCommand addCarCommand = new AddCarCommand(carController.getSimulationController(), drawPanel);
+        RemoveCarCommand removeCarCommand = new RemoveCarCommand(carController.getSimulationController(), drawPanel);
+
+        addCarButton.addActionListener(e -> addCarCommand.execute());
+        removeCarButton.addActionListener(e -> removeCarCommand.execute());
+
         eventView.addButtonListeners(gasButton, brakeButton, turboOnButton, turboOffButton,
                 liftBedButton, lowerBedButton, startButton, stopButton, gasSpinner);
 
