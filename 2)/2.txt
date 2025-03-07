@@ -1,0 +1,24 @@
+2) 
+-----Vilka avvikelser från MVC-idealet kan ni identifiera i det ursprungliga användargränssnittet?-----
+
+CarView was tightly coupled with CarController violating SoC. 
+- with MVC in mind the View module should only display things and notify the Controller module if the user does anything
+
+CarController handled both simulation logic and Ui interactions. the Controller should only process user input while the model handles the sim. logic.
+
+DrawPanel was rendering Cars and handeling their position. However the model should only handle the logic while the view displays the cars.
+
+
+
+-----Vilka av dessa brister åtgärdade ni med er nya design från del 3?-----
+
+we separated simulation loic from the Ui as SimulationController now handles sim. logic while CarController handles what should happen to the cars when the button is pressed
+
+CarView and CarController are no longer tightly connected as EventView now handles button actions and informs CarController which button is pressed
+
+DrawPanel now only renders the images while SimulationController manages the positions and states
+
+
+
+
+

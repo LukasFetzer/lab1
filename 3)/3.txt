@@ -1,0 +1,21 @@
+3)
+Observer, Factory Method, State, Composite. För vart och ett av dessa fyra designmönster, svara på följande frågor: 
+
+Finns det något ställe i er design där ni redan använder detta pattern, avsiktligt eller oavsiktligt? 
+- No for all
+
+Finns det något ställe där ni kan förbättra er design genom att använda detta design pattern? Vilka designproblem skulle ni lösa genom att använda det? Om inte, varför skulle er design inte förbättras av att använda det?
+
+Observer:
+would be good as we can decouple simulationlogic (SimulationController) and rendering logic (DrawPanel)
+
+Factory Method:
+good because it makes Car creation more flexible
+
+Sate:
+yes, it would be easier to add new states and behaviours to the car class
+
+Composite:
+Not really needed as we dont have groups of for example cars
+
+

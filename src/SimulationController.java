@@ -3,6 +3,7 @@ package src;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SimulationController {
     private final ArrayList<Car> cars = new ArrayList<>();
@@ -10,13 +11,26 @@ public class SimulationController {
     private final DrawPanel drawPanel;
     private final Timer timer;
     private final Point workshopPosition;
+    private final List<Observer> observers = new ArrayList<>();
 
     public SimulationController(Bilverkstad<Volvo240> workshop, DrawPanel drawPanel, Point workshopPosition) {
         this.workshop = workshop;
         this.drawPanel = drawPanel;
         this.workshopPosition = workshopPosition;
 
+        this.observers.add(drawPanel);
+
         this.timer = new Timer(50, e -> updateSimulation());
+    }
+
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    public void notifyObserver() {
+        for (Observer observer : observers) {
+            observer.update();
+        }
     }
 
     public void addCar(Car car) {
@@ -49,11 +63,12 @@ public class SimulationController {
     public void updateSimulation() {
         for (Car car : cars) {
             car.move();
+
         }
 
         handleCollisions();
 
-        drawPanel.repaint();
+        notifyObserver();
     }
 
     private boolean collidesWithWorkshop(Volvo240 car) {

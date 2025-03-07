@@ -13,9 +13,13 @@ public class Main {
         CarController carController = new CarController(simulationController);
         EventView eventView = new EventView(carController);
 
-        Volvo240 volvo = new Volvo240();
-        Saab95 saab = new Saab95();
-        Scania scania = new Scania();
+        Carfactory volvoFactory = new VolvoFactory();
+        Carfactory saabFactory = new SaabFactory();
+        Carfactory scaniaFactory = new ScaniaFactory();
+
+        Car volvo = volvoFactory.createCar();
+        Car saab = saabFactory.createCar();
+        Car scania = scaniaFactory.createCar();
 
         volvo.setX(0);
         volvo.setY(0);

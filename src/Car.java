@@ -11,6 +11,7 @@ public abstract class Car implements Movable {
     private Direction direction;
     private double x, y;
     private int weight;
+    private CarState state;
 
     public Car(int nrDoors, double enginePower, Color color, String modelName, int weight) {
         this.nrDoors = nrDoors;
@@ -22,6 +23,7 @@ public abstract class Car implements Movable {
         this.x = 0;
         this.y = 0;
         this.weight = weight;
+        this.state = new DefaultState();
     }
     public int getNrDoors(){
         return nrDoors;
@@ -79,6 +81,10 @@ public abstract class Car implements Movable {
 
     public String getModelName() {return modelName;}
 
+    public void setState(CarState state){
+        this.state = state;
+    }
+
     public void gas(int gas){
         if (gas < 0){
             gas = 0;
@@ -86,6 +92,7 @@ public abstract class Car implements Movable {
             gas = 1;
         }
         incrementSpeed(gas);
+        state.applyState(this);
     }
 
     public void breaks(int breaks){
@@ -95,6 +102,7 @@ public abstract class Car implements Movable {
             breaks = 1;
         }
         decrementSpeed(breaks);
+        state.applyState(this);
     }
 
 
@@ -129,6 +137,7 @@ public abstract class Car implements Movable {
             case NORTH -> y += currentSpeed;
             case SOUTH -> y -= currentSpeed;
         }
+        state.applyState(this);
     }
     @Override
     public void turnLeft() {

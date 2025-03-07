@@ -5,7 +5,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrawPanel extends JPanel {
+public class DrawPanel extends JPanel implements Observer{
     private final List<CarRenderer> carRenderers = new ArrayList<>();
     private final List<WorkshopRenderer> workshopRenderers = new ArrayList<>();
 
@@ -26,6 +26,10 @@ public class DrawPanel extends JPanel {
         carRenderers.removeIf(renderer -> renderer.getCar() == car);
     }
 
+    @Override
+    public void update(){
+        repaint();
+    }
 
     @Override
     protected void paintComponent(Graphics g) {

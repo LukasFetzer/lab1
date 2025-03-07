@@ -33,26 +33,20 @@ public class CarController {
 
     public void turboOnSaab() {
         for (Car car : simulationController.getCars()) {
-            if (car instanceof Saab95) {
-                ((Saab95) car).setTurboOn();
-            }
+            car.setState( new TurboState());
         }
     }
 
     public void turboOffSaab() {
         for (Car car : simulationController.getCars()) {
-            if (car instanceof Saab95) {
-                ((Saab95) car).setTurboOff();
-            }
+            car.setState(new TurboOffState());
         }
     }
 
     public void liftBed() {
         for (Car car : simulationController.getCars()) {
             if (car instanceof Scania) {
-                for (int i = 0; i < 70; i++) {
-                    ((Scania) car).raiseRamp();
-                }
+                car.setState(new LiftedBedState());
             }
         }
     }
@@ -60,9 +54,7 @@ public class CarController {
     public void lowerBed() {
         for (Car car : simulationController.getCars()) {
             if (car instanceof Scania) {
-                for (int i = 0; i < 70; i++) {
-                    ((Scania) car).lowerRamp();
-                }
+                car.setState(new LoweredBedState());
             }
         }
     }
